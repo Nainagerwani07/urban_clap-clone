@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>HOME | PAGE</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+</head>
+<body>
+	<h3>Welcome   {{ customer_name }} </h3>
+	{% if s %}
+	{% else %}
+		<h5>Get instant access to reliable and affordable services</h5>
+		{{ error }}
+	{% endif %}	
+
+	<a href="{% url 'logout' %}">logout</a>
+	{% if s %}
+		<button type="button" class="ser">Add Services</button>
+		<form method="post" action="{% url 'add_services' %}" class="a" style="display: none;">
+			{% csrf_token %}
+				Add Service : <input type="text" name="add"> 
+				<button type="submit">save</button>
+		</form>
+		{{ error }}
+
+	{% endif %}
+
+	<table border="1">
+		<thead>
+			{% if s %}
+				<th>Service Name</th>
+				<th>status</th>
+
+			{% else %}
+				<th>#</th>
+				<th>Service Name</th>
+				<th>Request</th>
+				<th>Cancel</th>
+				<th>status</th>
+
+			{% endif %}
+			
+		</thead>
+		<tbody>
+			{% if s %}
+				{% for se in service %}
+				<tr>
+					{% if se.user_id == sid %}
+						<td>{{ se.add_services }}</td>
+					{% endif %}
+				</tr>	
+				{% endfor %}
+			{% else %}
+				{% for se in service %}
+					<tr>
+						<td>{{ forloop.counter }}</td>
+						<td>{{ se.add_services }}</td>
+						<td><a href="{% url 'crequest' se.id %}" class="c_request">Request</a></td>
+						<td><a href="{% url 'ccancel' se.id %}" class="c_request">Cancel</a></td>
+
+						{% for c_req in cus_request %}
+							{% if sid is c_req.user_id and se.id == c_req.addservice_id %}
+								{% if c_req.status == 'pending' %}
+									<td>Pending</td>
+								{% elif c_req.status == 'Accepted' %}
+									<td>Accepted</td>	
+								{% elif c_req.status == 'Completed' %}
+									{% if c_req.review == '' %}
+									<td><form action="{% url 'review' c_req.user_id c_req.addservice_id %}" method="POST">
+										{% csrf_token %}
+										<input type="text" name="review">
+										<button type="submit">Add Review</button>
+									</form></td>
+									{% endif %}
+
+								{% endif %}	
+							{% endif %}	
+						{% endfor %}
+	
+
+					</tr>
+				{% endfor %}
+
+			{% endif %}
+		</tbody>
+	</table>
+
+	<p></p>
+
+<!-- 	{% if s %}
+		<table border="1">
+			<thead>
+				<th>Customer Name</th>
+				<th>Service Name</th>
+				<th>Status</th>
+			</thead>
+	{% endif %}		 -->
+
+	{% if s %}
+		<table border="1">
+			<thead>
+				<th>Customer Name</th>
+				<th>Service Name</th>
+				<th></th>
+				<th>Status</th>
+				<th>Review</th>
+			</thead>
+			<tbody>
+				{% for c_req in cus_request %}  
+					{% for se in service %}  
+						{% if c_req.addservice_id == se.id %}
+							{% if se.user_id == sid %}
+								<tr>
+
+									<td>{{ c_req.user_id }}</td>
+									<td>{{ se.add_services }}</td>
+									<td>{{ c_req.sid }}</td>
+									{% if c_req.status == 'pending' %}
+										<td><a href="{% url 'service_accept'  c_req.user_id c_req.addservice_id %}">Accept</a></td>
+										<td><a href="{% url 'service_reject'  c_req.user_id c_req.addservice_id %}">Decline</a></td>
+									{% elif c_req.status == 'Accepted' %}
+										<td>Accepted</td>
+									    <td><a href="{% url 'service_complete'  c_req.user_id c_req.addservice_id %}">Complete</a></td>
+									{% else %}
+										<td>Completed</td>	
+									{% endif %}
+									<td>{{ c_req.review }}</td>
+								</tr>
+							{% endif %}
+						{% endif %}
+					{% endfor %}
+				{% endfor %}
+			</tbody>
+		</table>
+	{% endif %}
+
+
+		
+
+
+		<a href="{% url 'deactive_account' %}">deactive_account</a>
+
+</body>
+<script>
+	$(document).ready(function(){
+		$(".ser").click(function(){
+			console.log('lklk')
+			$(".a").show();
+			$(this).hide();
+		});
+	});	
+</script>
+</html>
+
+		

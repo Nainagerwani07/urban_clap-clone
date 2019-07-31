@@ -1,0 +1,53 @@
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+{% block body_block %}
+
+<button type="button" class="Register">Register</button>
+
+
+
+	<form method="post" action="{% url 'CustomerRegister' %}" class="r" style="display: none;">
+			{% csrf_token %}
+			<!-- <table> -->
+				Username :<input type="text" name="usernm" id="uname"> <br> <br>
+				Email :<input type="email" name="email" id="email"> <br> <br> 
+				Password :<input type="password" name="passwd" id="pass">
+				<p></p>
+			<!-- </table> -->
+			<button type="submit">save</button>
+		</form>
+
+<p>If you already registered click on login</p>
+
+<button type="button" class="login">login</button>	
+
+	<form method="POST" action="{% url 'login' %}" class="l" style="display: none;">
+		{% csrf_token %}
+			Username :<input type="text" name="l_usernm" id="l_uname"> <br> <br>
+			Password :<input type="password" name="l_passwd" id="l_pass">
+			<button type="submit">Login</button>
+		</form>
+	</form>	
+
+
+{{ registered }}
+{{ error }}
+
+
+{% endblock %}	
+<script>
+	$(document).ready(function(){
+  		$(".Register").click(function(){
+    		$(".r").show();
+    		$(".l").hide();
+
+  		});
+
+  		$(".login").click(function(){
+    		$(".l").show();
+    		$(".r").hide();
+
+  		});
+	});
+	
+</script>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>UrbanClap</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+</head>
+<body>
+	<h3>Urban Clap</h3>
+	<h4>Your Service Expert in Ahmedabad</h4>
+	<p></p>
+	<h6>How you want to register</h6>
+	<p></p>
+	<h7>As a Customer</h7> <a href = "{% url 'customer' %}"><button>Customer</button></a>
+	<p></p>
+	<h7>As a ServiceProvider</h7> <a href = "{% url 'service' %}"><button>ServiceProvider</button></a>
+	{{ provider_login_error }}
+{% block body_block %} 
+{% endblock %}		
+
+</body>
+
+</html>

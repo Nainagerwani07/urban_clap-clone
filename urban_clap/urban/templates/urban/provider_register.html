@@ -1,0 +1,51 @@
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+{% block body_block %}
+
+<button type="button" class="Register">Register</button>
+
+<script>
+	$(document).ready(function(){
+  		$(".Register").click(function(){
+    		$(".r").show();
+    		$(".l").hide();
+
+  		});
+
+  		$(".login").click(function(){
+    		$(".l").show();
+    		$(".r").hide();
+
+  		});
+	});
+	
+</script>
+
+	<form method="post" action="{% url 'service_provider_register' %}" class="r" style="display: none;">
+			{% csrf_token %}
+			<!-- <table> -->
+				User Name :<input type="text" name="user_name" id="uname"> <br> <br>
+				Email :<input type="email" name="email" id="email"> <br> <br> 
+				Password :<input type="password" name="password" id="pass">
+			<!-- </table> -->
+			<button type="submit">save</button>
+		</form>
+
+<p>If you already registered click on login</p>
+
+<button type="button" class="login">login</button>	
+
+	<form method="POST" action="{% url 'Service_provider_Login' %}" class="l" style="display: none;">
+		{% csrf_token %}
+			Username :<input type="text" name="sl_usernm" id="l_uname"> <br> <br>
+			Password :<input type="password" name="sl_passwd" id="l_pass">
+			<button type="submit">Login</button>
+		</form>
+	</form>	
+
+
+{{ registered }}
+{{ error }}
+
+
+{% endblock %}	
